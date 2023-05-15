@@ -117,3 +117,120 @@ for i in wordsfinal:
     labelname = wordsfinal[wordsfinal.index(i)].pop(0)
     #print("removed label name: ", labelname)
 
+#adding opcodes for instructions and the mov instruction
+opcodevar = 0
+for i in wordsfinal:
+
+  if i[0] == "mov":
+    if i[2][0] == "$":
+      if i[1] not in register:
+        print("error in line", opcodevar + 1 + len(memory), ": Register not found.")
+        errortest=1
+        break
+      binarycode.append("00010")
+
+      binarycode[opcodevar] = binarycode[opcodevar] + "0"  #unused bits
+      binarycode[opcodevar] = binarycode[opcodevar] + register[i[1]]
+      immvalue = binaryconvert(int(i[2][1::]))
+      if len(immvalue) > 7:
+        print("error in line", opcodevar + 1 + len(memory), ": Illegal immediate value.")
+        errortest = 1
+        break
+      binarycode[opcodevar] = binarycode[opcodevar] + immvalue
+    else:
+      binarycode.append("00011")
+      binarycode[opcodevar] = binarycode[opcodevar] + "00000"  #unused bits
+      binarycode[opcodevar] = binarycode[opcodevar] + register[i[1]]
+      binarycode[opcodevar] = binarycode[opcodevar] + register[i[2]]
+  elif i[0] not in opcode:
+    if i[0][-1] == ":":
+      continue
+    print("error in line", opcodevar + 1 + len(memory), ": Incorrect opcode.")
+    errortest = 1
+    break
+    
+
+  else:
+    binarycode.append(opcode[i[0]])
+  opcodevar += 1
+
+#type-A
+listA = ['add', 'sub', 'mul', 'xor', 'or', 'and']
+listB = ['rs', 'ls']
+listC = ['div', 'not', 'cmp']
+listD = ['ld', 'st']
+
+opcodevar = 0
+for i in wordsfinal:
+  if i[0][-1] == ":":
+    continue
+  if errortest == 1:
+    break
+  #A
+  if i[0] in listA:
+    if i[1] not in register or i[2] not in register or i[3] not in register:
+      print("error in line", opcodevar + 1 + len(memory), ": Register not found.")
+      errortest = 1
+      break
+    binarycode[opcodevar] = binarycode[opcodevar] + "00"  #unused bits
+    binarycode[opcodevar] = binarycode[opcodevar] + register[i[1]]
+    binarycode[opcodevar] = binarycode[opcodevar] + register[i[2]]
+    binarycode[opcodevar] = binarycode[opcodevar] + register[i[3]]
+
+  #B
+  if i[0] in listB:
+    if i[1] not in register:
+      print("error in line", opcodevar + 1 + len(memory), ": Register not found.")
+      errortest = 1
+      break
+    binarycode[opcodevar] = binarycode[opcodevar] + "0"  #unused bits
+    binarycode[opcodevar] = binarycode[opcodevar] + register[i[1]]
+    immvalue = binaryconvert(int(i[2][1::]))
+    if len(immvalue) > 7:
+      print("error in line", opcodevar + 1 + len(memory), ": Illegal immediate value.")
+      errortest = 1
+      break
+    binarycode[opcodevar] = binarycode[opcodevar] + immvalue
+    
+  #C
+  if i[0] in listC:
+    if i[1] not in register or i[2] not in register:
+      print("error in line", opcodevar + 1 + len(memory), ": Register not found.")
+      errortest = 1
+      break
+    binarycode[opcodevar] = binarycode[opcodevar] + "00000"  #unused bits
+    binarycode[opcodevar] = binarycode[opcodevar] + register[i[1]]
+    binarycode[opcodevar] = binarycode[opcodevar] + register[i[2]]
+
+  #D
+  if i[0] in listD:
+    if i[1] not in register:
+      print("error in line", opcodevar + 1 + len(memory), ": Register not found.")
+      errortest = 1
+      break
+    if i[2] not in memory:
+      print("error: Memory not found in line " +
+            str(opcodevar + 1 + len(memory)))
+      errortest = 1
+      break
+    binarycode[opcodevar] = binarycode[opcodevar] + "0"  #unused bits
+    binarycode[opcodevar] = binarycode[opcodevar] + register[i[1]]
+    binarycode[opcodevar] = binarycode[opcodevar] + memory[i[2]]
+
+  #E
+  if i[0] in listE:
+    if (i[1] + ":") not in labeldec:
+      print("error in line", opcodevar + 1 + len(memory), ": Use of undefined label.")
+      errortest=1
+      break
+    binarycode[opcodevar] = binarycode[opcodevar] + "0000"  #unused bits
+    binarycode[opcodevar] = binarycode[opcodevar] + binaryconvert(
+      labeldec[i[1] + ":"])
+
+  #F
+  if i[0] == "hlt":
+    binarycode[opcodevar] = binarycode[opcodevar] + "00000000000"  #unused bits
+
+  opcodevar += 1
+'''for i in wordsfinal:
+  print(i)'''
