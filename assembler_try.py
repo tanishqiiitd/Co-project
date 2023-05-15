@@ -65,3 +65,55 @@ for i in wordslist:
   temp = i.split(" ")
   wordsfinal.append(temp)
   
+  #error for variables
+vartest = 0
+insttest = 0
+
+for i in wordsfinal:
+  if i[0] in opcode:
+    insttest = wordsfinal.index(i)
+    break
+
+for i in wordsfinal:
+  if i[0] == "var":
+    vartest = wordsfinal.index(i)
+
+if vartest > insttest:
+  print("error: Variables not declared in the beginning")
+  errortest = 1
+
+#assigning memory to variables
+for i in wordsfinal:
+  if errortest == 1:
+    break
+  if i[0] == "var":
+    memory[i[1]] = binaryconvert(memvariable)
+    memvariable += 1
+
+wordsfinal = [i for i in wordsfinal if i[0] != 'var']
+
+for i in wordsfinal:
+  if len(i) == 2 and i[0] == 'var':
+    wordsfinal.remove(i)
+
+#removing blank spaces
+for i in range(len(wordsfinal)):
+  while "" in wordsfinal[i]:
+    wordsfinal[i].remove("")
+
+#labels
+listE = ["jmp", 'jlt', 'jgt', 'je']
+for i in wordsfinal:
+  if i[0][-1] == ":":
+    labeldec[i[0]] = wordsfinal.index(i)
+    #print(labeldec)
+
+  if i[0] in listE:
+    labelcall[i[1]] = wordsfinal.index(i)
+    #print(labelcall)
+
+for i in wordsfinal:
+  if i[0][-1] == ":":
+    labelname = wordsfinal[wordsfinal.index(i)].pop(0)
+    #print("removed label name: ", labelname)
+
