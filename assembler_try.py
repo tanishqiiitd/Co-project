@@ -234,3 +234,41 @@ for i in wordsfinal:
   opcodevar += 1
 '''for i in wordsfinal:
   print(i)'''
+
+#halt errors
+hlttest = 0
+for i in wordsfinal:
+  for j in i:
+    if j == "hlt":
+      hlttest = 1
+      break
+if hlttest == 0:
+  print("error: Missing halt instruction.")
+elif hlttest == 1:
+  if wordsfinal[-1] != ['hlt']:
+    print("error: Halt not used as the last instruction.")
+    errortest = 1
+
+f2 = open("output.txt", "w")
+
+if errortest == 0:
+  for i in binarycode:
+    f2.write(i + "\n")
+    print(i)
+
+f2.close()
+f.close()
+
+#Type-A: add, sub, mul, xor, or, and   (3 register type)
+
+#type-B: x mov(00010), rs, ls            (register and immediate type)
+
+#type-C: x mov(00011), div, not, cmp     (2 register type)
+
+#type-D: ld, st                   (reg and mem addr type)
+
+#type-E: jmp, jlt, jgt, je             (mem addr type)
+
+#type-F: halt                          (halt)
+
+#type-special  mov(00010), mov(00011)
