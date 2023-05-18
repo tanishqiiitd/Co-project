@@ -73,7 +73,7 @@ test=[]
 
 while True:
     try:
-        testline=input("enter line: ")
+        testline=input()
         test.append(testline)
     except EOFError:
         break
