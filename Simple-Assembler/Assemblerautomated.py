@@ -100,8 +100,8 @@ while(testline!=""):
 
 for i in test:
   temp = i.split(" ")
-  wordsfinal.append(temp)
-'''
+  wordsfinal.append(temp)'''
+
 
 for i in wordsfinal:
   if i==['']:
@@ -126,15 +126,25 @@ if vartest > insttest:
   #f2.write("error: Variables not declared in the beginning" + "\n")
   errortest = 1
 
-#assigning memory to variables
+
+variablelist=[]
 for i in wordsfinal:
+  if i[0]=='var':
+    variablelist.append(i)
+
+
+
+
+wordsfinal = [i for i in wordsfinal if i[0] != 'var']
+
+#assigning memory to variables
+countvariable=len(wordsfinal)
+for i in variablelist:
   if errortest == 1:
     break
   if i[0] == "var":
-    memory[i[1]] = binaryconvert(memvariable)
-    memvariable += 1
-
-wordsfinal = [i for i in wordsfinal if i[0] != 'var']
+    memory[i[1]] = binaryconvert(countvariable)
+    countvariable += 1
 
 for i in wordsfinal:
   if len(i) == 2 and i[0] == 'var':
@@ -346,4 +356,5 @@ f.close()'''
 #type-F: halt                          (halt)
 
 #type-special  mov(00010), mov(00011)
+
 
