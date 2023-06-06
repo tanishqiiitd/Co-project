@@ -60,17 +60,17 @@ binarycode = []
 errortest = 0
 
 #reading text from input file
-'''
+
 f = open("input.txt", "r")
 words = f.read()
 wordslist = words.split("\n")
 
 for i in wordslist:
   temp = i.split(" ")
-  wordsfinal.append(temp)'''
+  wordsfinal.append(temp)
 test=[]
 #automated_testing
-
+'''
 while True:
     try:
         testline=input()
@@ -81,7 +81,7 @@ for i in test:
    if testline[0]==' ':
       testline=testline.strip(' ')
    temp = i.split(" ")
-   wordsfinal.append(temp)
+   wordsfinal.append(temp)'''
       
       
       
@@ -333,6 +333,14 @@ elif hlttest == 1:
     #f2.write("error: Halt not used as the last instruction.")
     errortest = 1
 
+for i in wordsfinal:
+  if i[0]=="hlt":
+    if wordsfinal.index(i)!= (len(wordsfinal)-1):
+      print("error: Halt not used as the last instruction.")
+      errortest = 1
+      break
+   
+
 if errortest == 0:
   for i in binarycode:
    print(i)
@@ -356,5 +364,3 @@ f.close()'''
 #type-F: halt                          (halt)
 
 #type-special  mov(00010), mov(00011)
-
-
