@@ -60,17 +60,17 @@ binarycode = []
 errortest = 0
 
 #reading text from input file
-
+'''
 f = open("input.txt", "r")
 words = f.read()
 wordslist = words.split("\n")
 
 for i in wordslist:
   temp = i.split(" ")
-  wordsfinal.append(temp)
+  wordsfinal.append(temp)'''
 test=[]
 #automated_testing
-'''
+
 while True:
     try:
         testline=input()
@@ -81,7 +81,7 @@ for i in test:
    if testline[0]==' ':
       testline=testline.strip(' ')
    temp = i.split(" ")
-   wordsfinal.append(temp)'''
+   wordsfinal.append(temp)
       
       
       
